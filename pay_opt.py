@@ -10,4 +10,3 @@ class Pay_Option:
     self.account = account
     self.cust_uid = cust_uid
     self.uuid = uuid.uuid4()
-
