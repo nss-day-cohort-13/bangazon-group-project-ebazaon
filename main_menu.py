@@ -7,7 +7,6 @@ from line_item import *
 
 def start_menu():
 
-  while True:
     os.system('cls' if os.name == 'nt' else 'clear')
 
     print("*********************************************************")
@@ -19,35 +18,28 @@ def start_menu():
     print("4. Add product to shopping cart")
     print("5. Complete an order")
     print("6. See product popularity")
-    print("7. Leave Bangazon!")
+    print("7. Leave Ebazaon!")
 
     menu_selection = input("> ")
     route_user_selection(menu_selection)
 
 def route_user_selection(selection):
+
   try:
     if int(selection) == 1:
-      print("creating account")
-      return(False)
+      create_customer_menu()
     elif int(selection) == 2:
-      print("choosing user")
-      return(False)
+      choose_customer_menu()
     elif int(selection) == 3:
-      print("creating payment")
-      return(False)
+      create_pay_opt_menu()
     elif int(selection) == 4:
-      print("adding products")
-      return(False)
+      add_product_menu()
     elif int(selection) == 5:
-      print("completing order")
-      return(False)
+      complete_order_menu()
     elif int(selection) == 6:
-      print("product popularity")
-      return(False)
+      see_popularity_menu()
     elif int(selection) == 7:
-      os.system('cls' if os.name == 'nt' else 'clear')
-      print("Bye!")
-      sys.exit()
+      leave_ebazaon()
     else:
       print("please pick one of the above options!")
       return(True)
@@ -58,40 +50,46 @@ def route_user_selection(selection):
 
 def create_customer_menu():
 
+  os.system('cls' if os.name == 'nt' else 'clear')
+
   print("Enter customer name")
-  input("> ")
+  name = input("> ")
 
   print("Enter street address")
-  input("> ")
+  address = input("> ")
 
   print("Enter city")
-  input("> ")
+  city = input("> ")
 
   print("Enter state")
-  input("> ")
+  state = input("> ")
 
   print("Enter postal code")
-  input("> ")
+  zipcode = input("> ")
 
   print("Enter phone number")
-  input("> ")
+  phone = input("> ")
+
+  # will call function for instantiating new user, to be added later
 
 def choose_customer_menu():
-  pass
+  print("choosing user")
 
 def create_pay_opt_menu():
-  pass
+  print("creating payment")
 
 def add_product_menu():
-  pass
+  print("adding products")
 
 def complete_order_menu():
-  pass
+  print("completing order")
 
 def see_popularity_menu():
-  pass
+  print("product popularity")
 
 def leave_ebazaon():
-  pass
+  os.system('cls' if os.name == 'nt' else 'clear')
+  print("Bye!")
+  sys.exit()
 
 start_menu()
