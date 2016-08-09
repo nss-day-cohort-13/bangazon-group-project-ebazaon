@@ -3,7 +3,6 @@ from user import *
 
 class TestUser(unittest.TestCase):
 
-
   @classmethod
   def setUp(self):
     ''' We are setting this up as self.customer that way we do not have to
@@ -16,8 +15,6 @@ class TestUser(unittest.TestCase):
                         '11111',
                         '1231231234'
                         )
-
-
 
   def test_customer_creation(self):
     ''' Test that a customer was created with all the prompts attributes '''

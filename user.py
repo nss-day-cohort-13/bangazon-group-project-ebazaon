@@ -1,6 +1,5 @@
 import uuid
 
-
 class User:
   ''' Creates a user with the following attributes passed in below in the __init__ method
       line 14 creates a unique id for each customer created '''
