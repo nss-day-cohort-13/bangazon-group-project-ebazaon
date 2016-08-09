@@ -6,4 +6,4 @@ class Order:
     self.cust_uid = cust_uid
     self.pay_opt_uid = pay_opt_uid
     self.paid = paid
-    self.uuid = uuid.uuid4()
+    self.order_uuid = uuid.uuid4()
