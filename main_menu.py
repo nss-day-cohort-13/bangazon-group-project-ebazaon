@@ -4,24 +4,67 @@ from user import *
 from pay_opt import *
 from order import *
 from line_item import *
+from product import *
+from serialization import *
+
+all_users = {}
+all_pay_opt = {}
+all_products = {}
+all_orders = {}
+all_order_line_items = {}
+main_menu_display = True
+main_menu_error = False
+main_menu_not_num = False
+
+def app_start():
+
+    global all_users
+    all_users = deserialize_users() #this will contain the entire dict of all users
+
+    global all_pay_opt
+    all_pay_opt = deserialize_pay_opt() #this will contain the entire dict of all pay options
+
+    global all_products
+    all_products = deserialize_products() #this will contain the entire dict of all users
+
+    global all_orders
+    all_orders = deserialize_orders() #this will contain the entire dict of all users
+
+    global all_order_line_items
+    all_order_line_items = deserialize_order_line_items() #this will contain the entire dict of all users
+
 
 def start_menu():
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    global main_menu_display
+    while main_menu_display == True:
+      os.system('cls' if os.name == 'nt' else 'clear')
 
-    print("*********************************************************")
-    print("**  Welcome to Ebazaon! Command Line Ordering System!  **")
-    print("*********************************************************")
-    print("1. Create a customer account")
-    print("2. Choose active customer")
-    print("3. Create a payment option")
-    print("4. Add product to shopping cart")
-    print("5. Complete an order")
-    print("6. See product popularity")
-    print("7. Leave Ebazaon!")
+      print("*********************************************************")
+      print("**  Welcome to Ebazaon! Command Line Ordering System!  **")
+      print("*********************************************************")
+      print("1. Create a customer account")
+      print("2. Choose active customer")
+      print("3. Create a payment option")
+      print("4. Add product to shopping cart")
+      print("5. Complete an order")
+      print("6. See product popularity")
+      print("7. Leave Ebazaon!")
+      print("\n")
 
-    menu_selection = input("> ")
-    route_user_selection(menu_selection)
+      global main_menu_error
+      if main_menu_error == True:
+        main_menu_error = False
+        print("Please choose a number within option range")
+
+      global main_menu_not_num
+      if main_menu_not_num == True:
+        main_menu_not_num = False
+        print("Please choose a number to indicate your selection")
+
+      menu_selection = input("> ")
+      route_user_selection(menu_selection)
+
 
 def route_user_selection(selection):
 
@@ -41,14 +84,19 @@ def route_user_selection(selection):
     elif int(selection) == 7:
       leave_ebazaon()
     else:
-      print("please pick one of the above options!")
-      return(True)
+      global main_menu_error
+      main_menu_error = True
+      return("invalid selection")
   except ValueError:
-      print("input the number next to your chosen option")
-      return(True)
+      global main_menu_not_num
+      main_menu_not_num = True
+      return("invalid selection")
 
 
 def create_customer_menu():
+
+  global main_menu_display
+  main_menu_display = False
 
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -70,7 +118,24 @@ def create_customer_menu():
   print("Enter phone number")
   phone = input("> ")
 
+  user = User(name, address, city, state, zipcode, phone)
+  all_users[user.uid.__str__] = user #make this an add users function then serialize it
+  serialize_users()
+
   # will call function for instantiating new user, to be added later
+  cust_create_success(name)
+
+def cust_create_success(name):
+
+  os.system('cls' if os.name == 'nt' else 'clear')
+
+  print("We successfully added {} as a user.\n Press enter to continue.".format(name))
+  print("\n")
+  input("> ")
+  global main_menu_display
+  main_menu_display = True
+  start_menu()
+
 
 def choose_customer_menu():
   print("choosing user")
@@ -92,4 +157,5 @@ def leave_ebazaon():
   print("Bye!")
   sys.exit()
 
+app_start()
 start_menu()
