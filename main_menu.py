@@ -17,7 +17,7 @@ menu_display = True
 menu_error = False
 menu_not_num = False
 user_login = False
-username = None
+current_user = None
 
 def app_start():
 
@@ -53,8 +53,8 @@ def start_menu():
       global user_login
       if user_login == True:
         print("\n")
-        global username
-        print("Welcome {}!".format(username))
+        global current_user
+        print("Welcome {}!".format(current_user.name))
         print("\n")
 
       print("1. Create a customer account")
@@ -164,19 +164,17 @@ def choose_customer_menu():
   counter = 1
   for key, value in all_users.items():
     print("{}. {}".format(counter, value.name))
-    temp_user_thing[counter] = value.name
+    temp_user_thing[counter] = value
     counter += 1
-    print(temp_user_thing)
 
   # need to write statement to handle exceptions
   user_choice = int(input("> "))
-  print('user choice', user_choice)
   for key, value in temp_user_thing.items():
     if key == user_choice:
       global user_login
       user_login = True
-      global username
-      username = value
+      global current_user
+      current_user = value
 
   start_menu()
 
