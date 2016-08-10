@@ -8,3 +8,5 @@ class Product:
     self.name = product_name
     self.price = product_price
     self.uuid = uuid.uuid4()
+
+

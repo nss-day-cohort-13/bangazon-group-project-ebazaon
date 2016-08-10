@@ -18,6 +18,7 @@ menu_error = False
 menu_not_num = False
 user_login = False
 current_user = None
+current_order = None
 
 def app_start():
 
@@ -201,11 +202,39 @@ def added_pay_opt_success(pay_type):
   start_menu()
 
 def add_product_menu():
-  # os.system('cls' if os.name == 'nt' else 'clear')
+  os.system('cls' if os.name == 'nt' else 'clear')
   print("please enter as many products as you need!")
   # needs to loop over deserialized product list and end with "done" option.
   # needs to display product list as long as "done" has not been hit.
   # Once done has been hit, it needs to go back to the main menu
+  global all_orders
+  global all_products
+  global current_order
+  global current_user
+
+  if current_order:
+    pass
+  else:
+    current_order = Order(current_user.uuid, None)
+    all_orders[current_order.order_uuid.__str__()] = current_order
+    # print(all_orders)
+    serialization.serialize_orders(all_orders)
+
+
+  temp_product_thing = dict()
+  global all_products
+  counter = 1
+  for key, value in all_products.items():
+    print("{}. {} - ${}".format(counter, value['name'], value['price']))
+    temp_product_thing[counter] = value
+    counter += 1
+  print('{}.done'.format(counter))
+
+  print('Select a product by its corresponding number:')
+  product_choice = int(input("> "))
+
+
+
 
 def complete_order_menu():
   # os.system('cls' if os.name == 'nt' else 'clear')
