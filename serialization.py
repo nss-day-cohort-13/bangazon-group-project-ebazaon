@@ -5,12 +5,12 @@ from main_menu import *
 
 # ----- Serialization of all users -------#
 
-def serialize(self):
+def serialize_users(self):
   with open('users.txt', 'wb+') as f:
     pickle.dump(all_users, f)
 
 
-def deserialize(self):
+def deserialize_users(self):
   try:
     with open('users.txt', 'rb+') as f:
       all_users = pickle.load(f)
@@ -23,12 +23,12 @@ def deserialize(self):
 
 # ----- Serialization of all payment options -------#
 
-def serialize(self):
+def serialize_pay_opt(self):
   with open('pay_opt.txt', 'wb+') as f:
     pickle.dump(all_pay_opt, f)
 
 
-def deserialize(self):
+def deserialize_pay_opt(self):
   try:
     with open('pay_opt.txt', 'rb+') as f:
       all_pay_opt = pickle.load(f)
@@ -41,12 +41,12 @@ def deserialize(self):
 
 # ----- Serialization of all products -------#
 
-def serialize(self):
+def serialize_products(self):
   with open('products.txt', 'wb+') as f:
     pickle.dump(all_products, f)
 
 
-def deserialize(self):
+def deserialize_products(self):
   try:
     with open('products.txt', 'rb+') as f:
       all_products = pickle.load(f)
@@ -59,12 +59,12 @@ def deserialize(self):
 
 # ----- Serialization of all orders -------#
 
-def serialize(self):
+def serialize_orders(self):
   with open('orders.txt', 'wb+') as f:
     pickle.dump(all_orders, f)
 
 
-def deserialize(self):
+def deserialize_orders(self):
   try:
     with open('orders.txt', 'rb+') as f:
       all_orders = pickle.load(f)
@@ -77,12 +77,12 @@ def deserialize(self):
 
 # ----- Serialization of all order_line_items -------#
 
-def serialize(self):
+def serialize_order_line_itmes(self):
   with open('order_line_items.txt', 'wb+') as f:
     pickle.dump(all_order_line_items, f)
 
 
-def deserialize(self):
+def deserialize_order_line_itmes(self):
   try:
     with open('order_line_items.txt', 'rb+') as f:
       all_order_line_items = pickle.load(f)
