@@ -96,6 +96,7 @@ def route_user_selection(selection):
 def create_customer_menu():
 
   global main_menu_display
+  global all_users
   main_menu_display = False
 
   os.system('cls' if os.name == 'nt' else 'clear')
@@ -119,9 +120,9 @@ def create_customer_menu():
   phone = input("> ")
 
   user = User(name, address, city, state, zipcode, phone)
-  all_users[user.uuid.__str__] = user #make this an add users function then serialize it
-  serialize_users()
-
+  all_users[user.uuid.__str__()] = user #make this an add users function then serialize it
+  print(all_users)
+  serialization.serialize_users(all_users)
   # will call function for instantiating new user, to be added later
   cust_create_success(name)
 
@@ -138,6 +139,10 @@ def cust_create_success(name):
 
 
 def choose_customer_menu():
+  global all_users
+  for key, value in all_users.items():
+    print(value.name)
+  input('') # this is just to stop it from running the app_start() again
   print("choosing user")
 
 def create_pay_opt_menu():
