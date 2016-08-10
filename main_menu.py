@@ -2,9 +2,9 @@ import os
 import sys
 from user import *
 from pay_opt import *
-from order import *
+from orders import *
 from line_item import *
-from product import *
+from products import *
 from serialization import *
 
 all_users = {}
