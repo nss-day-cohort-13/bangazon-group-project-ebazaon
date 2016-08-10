@@ -97,8 +97,8 @@ class Menu():
     phone = input("> ")
 
     user = User(name, address, city, state, zipcode, phone)
-
-    self.userDict[uid] = user.__dict__
+    user.__dict__
+    self.userDict[uid] = user
 
     serializeUser(self)
 
