@@ -20,5 +20,6 @@ class TestOrder(unittest.TestCase):
     self.assertEqual(self.new_order.pay_opt_uid, 'Test Pay_Opt_Uid')
     self.assertFalse(self.new_order.paid)
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -2,10 +2,10 @@ import os
 import sys
 from user import *
 from pay_opt import *
-from order import *
+from orders import *
 from line_item import *
-from product import *
-from serialization import *
+from products import *
+import serialization
 
 all_users = {}
 all_pay_opt = {}
@@ -19,19 +19,19 @@ main_menu_not_num = False
 def app_start():
 
     global all_users
-    all_users = deserialize_users() #this will contain the entire dict of all users
+    all_users = serialization.deserialize_users() #this will contain the entire dict of all users
 
     global all_pay_opt
-    all_pay_opt = deserialize_pay_opt() #this will contain the entire dict of all pay options
+    all_pay_opt = serialization.deserialize_pay_opt() #this will contain the entire dict of all pay options
 
     global all_products
-    all_products = deserialize_products() #this will contain the entire dict of all users
+    all_products = serialization.deserialize_products() #this will contain the entire dict of all users
 
     global all_orders
-    all_orders = deserialize_orders() #this will contain the entire dict of all users
+    all_orders = serialization.deserialize_orders() #this will contain the entire dict of all users
 
     global all_order_line_items
-    all_order_line_items = deserialize_order_line_items() #this will contain the entire dict of all users
+    all_order_line_items = serialization.deserialize_order_line_items() #this will contain the entire dict of all users
 
 
 def start_menu():
@@ -119,7 +119,7 @@ def create_customer_menu():
   phone = input("> ")
 
   user = User(name, address, city, state, zipcode, phone)
-  all_users[user.uid.__str__] = user #make this an add users function then serialize it
+  all_users[user.uuid.__str__] = user #make this an add users function then serialize it
   serialize_users()
 
   # will call function for instantiating new user, to be added later
