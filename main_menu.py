@@ -202,11 +202,7 @@ def added_pay_opt_success(pay_type):
   start_menu()
 
 def add_product_menu():
-  os.system('cls' if os.name == 'nt' else 'clear')
   print("please enter as many products as you need!")
-  # needs to loop over deserialized product list and end with "done" option.
-  # needs to display product list as long as "done" has not been hit.
-  # Once done has been hit, it needs to go back to the main menu
   global all_orders
   global all_products
   global current_order
@@ -220,21 +216,24 @@ def add_product_menu():
     # print(all_orders)
     serialization.serialize_orders(all_orders)
 
+  done_shopping = False
 
-  temp_product_thing = dict()
-  global all_products
-  counter = 1
-  for key, value in all_products.items():
-    print("{}. {} - ${}".format(counter, value['name'], value['price']))
-    temp_product_thing[counter] = value
-    counter += 1
-  print('{}.done'.format(counter))
+  while done_shopping == False:
+    os.system('cls' if os.name == 'nt' else 'clear')
+    temp_product_thing = dict()
+    global all_products
+    counter = 1
+    for key, value in all_products.items():
+      print("{}. {} - ${}".format(counter, value['name'], value['price']))
+      temp_product_thing[counter] = value
+      counter += 1
+    print('{}.done'.format(counter))
 
-  print('Select a product by its corresponding number:')
-  product_choice = int(input("> "))
+    print('Select a product by its corresponding number:')
+    product_choice = int(input("> "))
 
-
-
+    if product_choice == counter:
+      done_shopping = True
 
 def complete_order_menu():
   # os.system('cls' if os.name == 'nt' else 'clear')
