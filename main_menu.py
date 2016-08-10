@@ -5,7 +5,7 @@ from pay_opt import *
 from orders import *
 from line_item import *
 from products import *
-from serialization import *
+import serialization
 
 all_users = {}
 all_pay_opt = {}
@@ -19,19 +19,19 @@ main_menu_not_num = False
 def app_start():
 
     global all_users
-    all_users = deserialize_users() #this will contain the entire dict of all users
+    all_users = serialization.deserialize_users() #this will contain the entire dict of all users
 
     global all_pay_opt
-    all_pay_opt = deserialize_pay_opt() #this will contain the entire dict of all pay options
+    all_pay_opt = serialization.deserialize_pay_opt() #this will contain the entire dict of all pay options
 
     global all_products
-    all_products = deserialize_products() #this will contain the entire dict of all users
+    all_products = serialization.deserialize_products() #this will contain the entire dict of all users
 
     global all_orders
-    all_orders = deserialize_orders() #this will contain the entire dict of all users
+    all_orders = serialization.deserialize_orders() #this will contain the entire dict of all users
 
     global all_order_line_items
-    all_order_line_items = deserialize_order_line_items() #this will contain the entire dict of all users
+    all_order_line_items = serialization.deserialize_order_line_items() #this will contain the entire dict of all users
 
 
 def start_menu():
