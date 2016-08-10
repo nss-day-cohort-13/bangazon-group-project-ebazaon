@@ -27,17 +27,5 @@ class TestUser(unittest.TestCase):
     self.assertEqual(self.customer.phone, '1231231234')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
     unittest.main()
