@@ -2,10 +2,10 @@ import os
 import sys
 from user import *
 from pay_opt import *
-from order import *
+from orders import *
 from line_item import *
-from product import *
-from serialization import *
+from products import *
+import serialization
 
 all_users = {}
 all_pay_opt = {}
@@ -23,19 +23,19 @@ def app_start():
 
     # Verify is working
     global all_users
-    all_users = deserialize_users() #this will contain the entire dict of all users
+    all_users = serialization.deserialize_users() #this will contain the entire dict of all users
 
     global all_pay_opt
-    all_pay_opt = deserialize_pay_opt() #this will contain the entire dict of all pay options
+    all_pay_opt = serialization.deserialize_pay_opt() #this will contain the entire dict of all pay options
 
     global all_products
-    all_products = deserialize_products() #this will contain the entire dict of all users
+    all_products = serialization.deserialize_products() #this will contain the entire dict of all users
 
     global all_orders
-    all_orders = deserialize_orders() #this will contain the entire dict of all users
+    all_orders = serialization.deserialize_orders() #this will contain the entire dict of all users
 
     global all_order_line_items
-    all_order_line_items = deserialize_order_line_items() #this will contain the entire dict of all users
+    all_order_line_items = serialization.deserialize_order_line_items() #this will contain the entire dict of all users
 
     start_menu()
 
@@ -109,8 +109,8 @@ def route_user_selection(selection):
 
 def create_customer_menu():
 
-  # Need to write in exception handlers for invalid input
   global menu_display
+  global all_users
   menu_display = False
 
   os.system('cls' if os.name == 'nt' else 'clear')
@@ -135,9 +135,9 @@ def create_customer_menu():
 
   # Verify is working
   user = User(name, address, city, state, zipcode, phone)
-  all_users[user.uid.__str__] = user #make this an add users function then serialize it
-  serialize_users()
-
+  all_users[user.uuid.__str__()] = user #make this an add users function then serialize it
+  print(all_users)
+  serialization.serialize_users(all_users)
   # will call function for instantiating new user, to be added later
   cust_create_success(name)
 
@@ -156,12 +156,20 @@ def cust_create_success(name):
 def choose_customer_menu():
   os.system('cls' if os.name == 'nt' else 'clear')
   print("Which customer will be active?")
-  # need to write a for loop that will go over deserialized list of user names and assign numbers to them as returned from function in user.py
-  user_choice = input("> ")
+  print("\n")
+    global all_users
+    counter = 1
+    for key, value in all_users.items():
+      print("{}. {}".format(counter, value.name))
+      counter += 1
+
+    user_choice = input("> ")
+
   # needs to call the function that pulls the rest of the customer information
   # needs to return user's name for menu display
-  global username
-  username = # function for returned username
+  # global username
+  # username = # function for returned username
+
 
 def create_pay_opt_menu():
   os.system('cls' if os.name == 'nt' else 'clear')

@@ -11,8 +11,3 @@ class User:
     self.zipcode = zipcode
     self.phone = phone
     self.uuid = uuid.uuid4()
-
-
-
-
-
