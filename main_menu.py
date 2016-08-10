@@ -119,7 +119,7 @@ def create_customer_menu():
   phone = input("> ")
 
   user = User(name, address, city, state, zipcode, phone)
-  all_users[user.uid.__str__] = user #make this an add users function then serialize it
+  all_users[user.uuid.__str__] = user #make this an add users function then serialize it
   serialize_users()
 
   # will call function for instantiating new user, to be added later
