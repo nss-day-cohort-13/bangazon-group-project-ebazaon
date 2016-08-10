@@ -7,6 +7,6 @@ class LineItems:
   def __init__(self, productID, orderID):
     self.productID = productID
     self.orderID = orderID
-    self.uuid = uuid.uuid4()
+
 
 
