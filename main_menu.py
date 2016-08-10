@@ -154,22 +154,33 @@ def cust_create_success(name):
 
 
 def choose_customer_menu():
+  menu_display = False
   os.system('cls' if os.name == 'nt' else 'clear')
   print("Which customer will be active?")
   print("\n")
-    global all_users
-    counter = 1
-    for key, value in all_users.items():
-      print("{}. {}".format(counter, value.name))
-      counter += 1
 
-    user_choice = input("> ")
+  temp_user_thing = dict()
+  global all_users
+  counter = 1
+  for key, value in all_users.items():
+    print("{}. {}".format(counter, value.name))
+    temp_user_thing[counter] = value.name
+    counter += 1
+    print(temp_user_thing)
 
-  # needs to call the function that pulls the rest of the customer information
-  # needs to return user's name for menu display
-  # global username
-  # username = # function for returned username
+  # need to write statement to handle exceptions
+  user_choice = int(input("> "))
+  print('user choice', user_choice)
+  for key, value in temp_user_thing.items():
+    if key == user_choice:
+      global user_login
+      user_login = True
+      global username
+      username = value
 
+  start_menu()
+
+    # needs to call the function that pulls the rest of the customer information
 
 def create_pay_opt_menu():
   os.system('cls' if os.name == 'nt' else 'clear')
