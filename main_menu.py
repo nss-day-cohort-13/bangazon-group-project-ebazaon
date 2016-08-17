@@ -147,7 +147,7 @@ def create_customer_menu():
       (name, address, city, state, zipcode))
 
     print(c.fetchone())
-    lol = input('> ')
+
 
     # print('yo i made a customer!')
 
