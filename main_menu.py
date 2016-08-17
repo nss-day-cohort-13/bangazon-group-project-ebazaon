@@ -140,10 +140,16 @@ def create_customer_menu():
 
     c.execute("insert into Customer values (?, ?, ?, ?, ?, ?)",
                   (None, name, address, city, state, zipcode))
-
     conn.commit()
 
-    print('yo i made a customer!')
+
+    c.execute("SELECT CustomerID FROM Customer WHERE FullName =? and Address =? and City =? and StateofResidence =? and ZipCode =?",
+      (name, address, city, state, zipcode))
+
+    print(c.fetchone())
+    lol = input('> ')
+
+    # print('yo i made a customer!')
 
 
 
