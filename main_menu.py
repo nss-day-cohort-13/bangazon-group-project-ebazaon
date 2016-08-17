@@ -1,17 +1,18 @@
 import os
 import sys
+import sqlite3
 from user import *
 from pay_opt import *
 from orders import *
 from line_item import *
 from products import *
-import serialization
+# import serialization
 
-all_users = {}
-all_pay_opt = {}
-all_products = {}
-all_orders = {}
-all_order_line_items = {}
+# all_users = {}
+# all_pay_opt = {}
+# all_products = {}
+# all_orders = {}
+# all_order_line_items = {}
 
 menu_display = True
 menu_error = False
@@ -23,20 +24,20 @@ current_order = None
 def app_start():
 
     # Verify is working
-    global all_users
-    all_users = serialization.deserialize_users() #this will contain the entire dict of all users
+    # global all_users
+    # all_users = serialization.deserialize_users() #this will contain the entire dict of all users
 
-    global all_pay_opt
-    all_pay_opt = serialization.deserialize_pay_opt() #this will contain the entire dict of all pay options
+    # global all_pay_opt
+    # all_pay_opt = serialization.deserialize_pay_opt() #this will contain the entire dict of all pay options
 
-    global all_products
-    all_products = serialization.deserialize_products() #this will contain the entire dict of all users
+    # global all_products
+    # all_products = serialization.deserialize_products() #this will contain the entire dict of all users
 
-    global all_orders
-    all_orders = serialization.deserialize_orders() #this will contain the entire dict of all users
+    # global all_orders
+    # all_orders = serialization.deserialize_orders() #this will contain the entire dict of all users
 
-    global all_order_line_items
-    all_order_line_items = serialization.deserialize_order_line_items() #this will contain the entire dict of all users
+    # global all_order_line_items
+    # all_order_line_items = serialization.deserialize_order_line_items() #this will contain the entire dict of all users
 
     start_menu()
 
@@ -116,30 +117,43 @@ def create_customer_menu():
 
   os.system('cls' if os.name == 'nt' else 'clear')
 
-  print("Enter customer name")
-  name = input("> ")
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
 
-  print("Enter street address")
-  address = input("> ")
+    print("Enter customer name")
+    name = input("> ")
 
-  print("Enter city")
-  city = input("> ")
+    print("Enter street address")
+    address = input("> ")
 
-  print("Enter state")
-  state = input("> ")
+    print("Enter city")
+    city = input("> ")
 
-  print("Enter postal code")
-  zipcode = input("> ")
+    print("Enter state")
+    state = input("> ")
 
-  print("Enter phone number")
-  phone = input("> ")
+    print("Enter postal code")
+    zipcode = input("> ")
+
+    # print("Enter phone number")
+    # phone = input("> ")
+
+    c.execute("insert into Customer values (?, ?, ?, ?, ?, ?)",
+                  (None, name, address, city, state, zipcode))
+
+    conn.commit()
+
+    print('yo i made a customer!')
+
+
 
   # Verify is working
-  user = User(name, address, city, state, zipcode, phone)
-  all_users[user.uuid.__str__()] = user #make this an add users function then serialize it
-  print(all_users)
-  serialization.serialize_users(all_users)
+  # user = User(name, address, city, state, zipcode, phone)
+  # all_users[user.uuid.__str__()] = user #make this an add users function then serialize it
+  # print(all_users)
+  # serialization.serialize_users(all_users)
   # will call function for instantiating new user, to be added later
+
   cust_create_success(name)
 
 def cust_create_success(name):
