@@ -229,13 +229,25 @@ def choose_customer_menu():
 
 def create_pay_opt_menu():
   os.system('cls' if os.name == 'nt' else 'clear')
-  print("Enter payment type (e.g. AmEx, Visa, Checking)")
-  pay_type = input("> ")
 
-  print("Enter account number")
-  account = input("> ")
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
+
+    print("Enter payment type (e.g. AmEx, Visa, Checking)")
+    pay_type = input("> ")
+
+    print("Enter account number")
+    account = input("> ")
+
+    c.execute("""
+                insert into PaymentOption (AccountNumber, Name, CustomerID)
+                values (?, ?, ?)
+              """,
+                (account, pay_type, current_user))
+    conn.commit()
+
   # needs to run function to have user payment information added to file that holds that information
-  added_pay_opt_success(pay_type)
+  # added_pay_opt_success(pay_type)
 
 def added_pay_opt_success(pay_type):
   os.system('cls' if os.name == 'nt' else 'clear')
