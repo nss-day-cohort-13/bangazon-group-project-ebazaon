@@ -138,18 +138,27 @@ def create_customer_menu():
     # print("Enter phone number")
     # phone = input("> ")
 
-    c.execute("insert into Customer values (?, ?, ?, ?, ?, ?)",
-                  (None, name, address, city, state, zipcode))
+    c.execute("""
+                insert into Customer (FullName, Address, City, StateOfResidence, ZipCode)
+                values (?, ?, ?, ?, ?)
+              """,
+                (name, address, city, state, zipcode))
     conn.commit()
 
 
-    c.execute("SELECT CustomerID FROM Customer WHERE FullName =? and Address =? and City =? and StateofResidence =? and ZipCode =?",
-      (name, address, city, state, zipcode))
+    c.execute("""
+                SELECT CustomerID
+                FROM Customer
+                WHERE FullName =?
+                and Address =?
+                and City =?
+                and StateofResidence =?
+                and ZipCode =?
+              """,
+                (name, address, city, state, zipcode))
 
-    print(c.fetchone())
-
-
-    # print('yo i made a customer!')
+    # print(c.fetchone())
+    current_user = c.fetchone()
 
 
 
@@ -175,29 +184,46 @@ def cust_create_success(name):
 
 
 def choose_customer_menu():
-  menu_display = False
-  os.system('cls' if os.name == 'nt' else 'clear')
-  print("Which customer will be active?")
-  print("\n")
 
-  temp_user_thing = dict()
-  global all_users
-  counter = 1
-  for key, value in all_users.items():
-    print("{}. {}".format(counter, value.name))
-    temp_user_thing[counter] = value
-    counter += 1
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
 
-  # need to write statement to handle exceptions
-  user_choice = int(input("> "))
-  for key, value in temp_user_thing.items():
-    if key == user_choice:
-      global user_login
-      user_login = True
-      global current_user
-      current_user = value
+    c.execute("""
+                select
+                  CustomerID,
+                  FullName
+                from Customer
+              """)
+    all_users_list = c.fetchall()
+    # print(all_users_list)
 
-  start_menu()
+  for index, user_name in enumerate(all_users_list, start=1):
+    print('User: ', index, user_name[1])
+  customer_selection = input('Customer number: > ')
+
+  # menu_display = False
+  # os.system('cls' if os.name == 'nt' else 'clear')
+  # print("Which customer will be active?")
+  # print("\n")
+
+  # temp_user_thing = dict()
+  # global all_users
+  # counter = 1
+  # for key, value in all_users.items():
+  #   print("{}. {}".format(counter, value.name))
+  #   temp_user_thing[counter] = value
+  #   counter += 1
+
+  # # need to write statement to handle exceptions
+  # user_choice = int(input("> "))
+  # for key, value in temp_user_thing.items():
+  #   if key == user_choice:
+  #     global user_login
+  #     user_login = True
+  #     global current_user
+  #     current_user = value
+
+  # start_menu()
 
     # needs to call the function that pulls the rest of the customer information
 
