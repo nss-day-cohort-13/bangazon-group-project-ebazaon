@@ -48,6 +48,8 @@ def start_menu():
     while menu_display == True:
       os.system('cls' if os.name == 'nt' else 'clear')
 
+      print(current_user)
+
       print("*********************************************************")
       print("**  Welcome to Ebazaon! Command Line Ordering System!  **")
       print("*********************************************************")
@@ -111,9 +113,12 @@ def route_user_selection(selection):
 
 def create_customer_menu():
 
+  global current_user
   global menu_display
   global all_users
   menu_display = False
+
+  print(current_user)
 
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -158,7 +163,11 @@ def create_customer_menu():
                 (name, address, city, state, zipcode))
 
     # print(c.fetchone())
-    current_user = c.fetchone()
+    current_user = c.fetchone()[0]
+
+    print(current_user)
+
+    blah = input('dlbvlkdvbldkvbdlkv')
 
 
 
@@ -228,14 +237,29 @@ def choose_customer_menu():
     # needs to call the function that pulls the rest of the customer information
 
 def create_pay_opt_menu():
+  global current_user
   os.system('cls' if os.name == 'nt' else 'clear')
-  print("Enter payment type (e.g. AmEx, Visa, Checking)")
-  pay_type = input("> ")
 
-  print("Enter account number")
-  account = input("> ")
+  print(current_user)
+
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
+
+    print("Enter payment type (e.g. AmEx, Visa, Checking)")
+    pay_type = input("> ")
+
+    print("Enter account number")
+    account = input("> ")
+
+    c.execute("""
+                insert into PaymentOption (AccountNumber, Name, CustomerID)
+                values (?, ?, ?)
+              """,
+                (account, pay_type, current_user))
+    conn.commit()
+
   # needs to run function to have user payment information added to file that holds that information
-  added_pay_opt_success(pay_type)
+  # added_pay_opt_success(pay_type)
 
 def added_pay_opt_success(pay_type):
   os.system('cls' if os.name == 'nt' else 'clear')
