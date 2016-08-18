@@ -283,44 +283,79 @@ def added_pay_opt_success(pay_type):
   menu_display = True
   start_menu()
 
+
+
+
 def add_product_menu():
-  print('Add some products!')
-
-  with sqlite3.connect('bangazon.db') as conn:
-    c = conn.cursor()
-
-    # query to return a list of tuples containing the Customers uid and fullname
-    c.execute("""
-                select
-                  ProductName,
-                  ProductPrice
-                from Product
-              """)
-    all_products_list = c.fetchall()
-
-  #  loop over an enumerated list of tuples to print the products with a value/number to be selected
-  list_of_products = enumerate(all_products_list, start=1)
-  for index, products in list_of_products:
-    print('#', index, products[0], '-', products[1] )
-
-  lol = input(">>>>>>> ")
-
-  # for index, user_name in list_of_users:
-  #   print('User: ', index, user_name[1])
-
-  # customer_selection = input('Customer number: > ')
-  # list_of_users = enumerate(all_users_list, start=1)
-  # for index, user_name in list_of_users:
-  #   if int(customer_selection) == index:
-  #     current_user = user_name[0] #current_user is the uid of the customer
-  #     print(current_user)
-  #     lol = input('imlolin')
-
-  # print("please enter as many products as you need!")
+  print("please enter as many products as you need!")
   # global all_orders
   # global all_products
   # global current_order
   # global current_user
+
+  print('Add some products!')
+
+
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
+
+    c.execute("""
+                  select
+                    ProductName,
+                    ProductPrice,
+                    ProductID
+                  from Product
+                """)
+    all_products_list = c.fetchall()
+
+    #  loop over an enumerated list of tuples to print the products with a value/number to be selected
+    list_of_products = enumerate(all_products_list, start=1)
+    for index, products in list_of_products:
+      print('#', index, products[0], '-', products[1] )
+
+    product_selection = input('> ')
+    list_of_products = enumerate(all_products_list, start=1)
+    for index, products in list_of_products:
+      if int(product_selection) == index:
+        current_product = products[2] #current_user is the uid of the customer
+        print(current_product)
+        lol = input('imlolin')
+
+
+
+
+
+
+    # c.execute("""               #****** pseudocode from order creation ******
+    #           SELECT OrderID
+    #           FROM Order
+    #           WHERE CustomerID =?
+    #           and PaymentOptionID =?
+    #           and Paid =?
+    #         """,
+    #           (current_user, payment_option, paid))
+
+    # # print(c.fetchone())
+    # current_order = c.fetchone()[0]
+    # pay_status = c.fetchone()[2]
+
+    # for current_order:
+    #   if pay_status = 0;
+    #   pay_status = unpaid_order
+
+    # for current_user:
+    #   if product == input and current_order == None:
+    #   create_new_order()
+    #   elif unpaid_order == current_user
+    #     return unpaid_order
+    #     return product
+
+#pass current_order or unpaid_order and product to LineItems
+
+
+
+
+
 
   # if current_order:
   #   pass
@@ -349,22 +384,53 @@ def add_product_menu():
   #   if product_choice == counter:
   #     done_shopping = True
 
+def create_new_order():
+  # os.system('cls' if os.name == 'nt' else 'clear')
+  global current_order
+
+  not_paid = 0
+
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
+
+    c.execute("""
+                insert into Order (CustomerID, PaymentOptionID, Paid)
+                values (?, ?, ?, ?, ?)
+              """,
+                (current_user, payment_option, paid))
+    conn.commit()
+
+
+    c.execute("""
+                SELECT OrderID
+                FROM Order
+                WHERE CustomerID =?
+                and PaymentOptionID =?
+                and Paid =?
+              """,
+                (current_user, payment_option, not_paid))
+
+      # print(c.fetchone())
+    current_order = c.fetchone()[0]
+
+    print(current_order)
+
+    blah = input('dlbvlkdvbldkvbdlkv')
+
+
+
 def complete_order_menu():
   pass
-  # os.system('cls' if os.name == 'nt' else 'clear')
-  print("completing order")
 
-def see_popularity_menu():
-  pass
-  # os.system('cls' if os.name == 'nt' else 'clear')
-  print("product popularity")
+
+# def see_popularity_menu():
+#   # os.system('cls' if os.name == 'nt' else 'clear')
+#   print("product popularity")
 
 def leave_ebazaon():
   os.system('cls' if os.name == 'nt' else 'clear')
   print("Bye!")
   sys.exit()
-
-
 
 
 def admin_menu():
@@ -389,6 +455,4 @@ def admin_menu():
     conn.commit()
 
 
-
 app_start()
-
