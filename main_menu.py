@@ -87,7 +87,9 @@ def start_menu():
 def route_user_selection(selection):
 
   try:
-    if int(selection) == 1:
+    if int(selection) == 0:
+      admin_menu()
+    elif int(selection) == 1:
       create_customer_menu()
     elif int(selection) == 2:
       choose_customer_menu()
@@ -282,44 +284,78 @@ def added_pay_opt_success(pay_type):
   start_menu()
 
 def add_product_menu():
-  print("please enter as many products as you need!")
-  global all_orders
-  global all_products
-  global current_order
-  global current_user
+  print('Add some products!')
 
-  if current_order:
-    pass
-  else:
-    current_order = Order(current_user.uuid, None)
-    all_orders[current_order.order_uuid.__str__()] = current_order
-    # print(all_orders)
-    serialization.serialize_orders(all_orders)
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
 
-  done_shopping = False
+    # query to return a list of tuples containing the Customers uid and fullname
+    c.execute("""
+                select
+                  ProductName,
+                  ProductPrice
+                from Product
+              """)
+    all_products_list = c.fetchall()
 
-  while done_shopping == False:
-    os.system('cls' if os.name == 'nt' else 'clear')
-    temp_product_thing = dict()
-    global all_products
-    counter = 1
-    for key, value in all_products.items():
-      print("{}. {} - ${}".format(counter, value['name'], value['price']))
-      temp_product_thing[counter] = value
-      counter += 1
-    print('{}.done'.format(counter))
+  #  loop over an enumerated list of tuples to print the products with a value/number to be selected
+  list_of_products = enumerate(all_products_list, start=1)
+  for index, products in list_of_products:
+    print('#', index, products[0], '-', products[1] )
 
-    print('Select a product by its corresponding number:')
-    product_choice = int(input("> "))
+  lol = input(">>>>>>> ")
 
-    if product_choice == counter:
-      done_shopping = True
+  # for index, user_name in list_of_users:
+  #   print('User: ', index, user_name[1])
+
+  # customer_selection = input('Customer number: > ')
+  # list_of_users = enumerate(all_users_list, start=1)
+  # for index, user_name in list_of_users:
+  #   if int(customer_selection) == index:
+  #     current_user = user_name[0] #current_user is the uid of the customer
+  #     print(current_user)
+  #     lol = input('imlolin')
+
+  # print("please enter as many products as you need!")
+  # global all_orders
+  # global all_products
+  # global current_order
+  # global current_user
+
+  # if current_order:
+  #   pass
+  # else:
+  #   current_order = Order(current_user.uuid, None)
+  #   all_orders[current_order.order_uuid.__str__()] = current_order
+  #   # print(all_orders)
+  #   serialization.serialize_orders(all_orders)
+
+  # done_shopping = False
+
+  # while done_shopping == False:
+  #   os.system('cls' if os.name == 'nt' else 'clear')
+  #   temp_product_thing = dict()
+  #   global all_products
+  #   counter = 1
+  #   for key, value in all_products.items():
+  #     print("{}. {} - ${}".format(counter, value['name'], value['price']))
+  #     temp_product_thing[counter] = value
+  #     counter += 1
+  #   print('{}.done'.format(counter))
+
+  #   print('Select a product by its corresponding number:')
+  #   product_choice = int(input("> "))
+
+  #   if product_choice == counter:
+  #     done_shopping = True
 
 def complete_order_menu():
+  pass
   # os.system('cls' if os.name == 'nt' else 'clear')
   print("completing order")
 
 def see_popularity_menu():
+  pass
   # os.system('cls' if os.name == 'nt' else 'clear')
   print("product popularity")
 
@@ -327,6 +363,32 @@ def leave_ebazaon():
   os.system('cls' if os.name == 'nt' else 'clear')
   print("Bye!")
   sys.exit()
+
+
+
+
+def admin_menu():
+  os.system('cls' if os.name == 'nt' else 'clear')
+
+  print('Hello Admin, let me help you make products.')
+  print('\n')
+  print('Product name:')
+  product_name = input('> ')
+
+  print('Product price:')
+  product_price = input('> ')
+
+  with sqlite3.connect('bangazon.db') as conn:
+    c = conn.cursor()
+
+    c.execute("""
+                insert into Product (ProductName, ProductPrice)
+                values (?, ?)
+              """,
+                (product_name, product_price))
+    conn.commit()
+
+
 
 app_start()
 
