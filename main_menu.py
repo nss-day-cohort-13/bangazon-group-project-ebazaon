@@ -193,10 +193,12 @@ def cust_create_success(name):
 
 
 def choose_customer_menu():
+  global current_user
 
   with sqlite3.connect('bangazon.db') as conn:
     c = conn.cursor()
 
+    # query to return a list of tuples containing the Customers uid and fullname
     c.execute("""
                 select
                   CustomerID,
@@ -204,11 +206,19 @@ def choose_customer_menu():
                 from Customer
               """)
     all_users_list = c.fetchall()
-    # print(all_users_list)
 
-  for index, user_name in enumerate(all_users_list, start=1):
+  # loop over an enumerated list of tuples to print the users with a value/number to be selected
+  list_of_users = enumerate(all_users_list, start=1)
+  for index, user_name in list_of_users:
     print('User: ', index, user_name[1])
+
   customer_selection = input('Customer number: > ')
+  list_of_users = enumerate(all_users_list, start=1)
+  for index, user_name in list_of_users:
+    if int(customer_selection) == index:
+      current_user = user_name[0] #current_user is the uid of the customer
+      print(current_user)
+      lol = input('imlolin')
 
   # menu_display = False
   # os.system('cls' if os.name == 'nt' else 'clear')
